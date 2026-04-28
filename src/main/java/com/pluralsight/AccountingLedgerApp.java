@@ -9,20 +9,17 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class AccountingLedgerApp
-{
+public class AccountingLedgerApp {
     static Scanner scanner = new Scanner(System.in);
     static ArrayList<Transaction> transactions;
 
-    static void main()
-    {
+    static void main() {
         // make sure all transactions are loaded before we display the home screen
         transactions = loadTransactions();
         displayHomeScreen();
     }
 
-    static void displayHomeScreen()
-    {
+    static void displayHomeScreen() {
         System.out.println("Welcome to the Accounting Ledger App!");
         System.out.println("-------------------------------------");
         System.out.println();
@@ -35,16 +32,15 @@ public class AccountingLedgerApp
         String choice = scanner.nextLine().toUpperCase().strip();
 
         System.out.println();
-        switch (choice)
-        {
+        switch (choice) {
             case "D":
-                //displayDepositScreen();
+                displayDepositScreen();
                 break;
             case "P":
                 System.out.println("Create the Payment Screen");
                 break;
             case "L":
-                System.out.println("Create the Ledger Screen");
+                displayLedgerScreen();
                 break;
             case "X":
                 System.out.println("Goodbye!");
@@ -55,24 +51,20 @@ public class AccountingLedgerApp
         }
 
 
-
     }
 
-    static ArrayList<Transaction> loadTransactions()
-    {
-     // load transactions from a file
-     ArrayList<Transaction> transactions = new ArrayList<>();
+    static ArrayList<Transaction> loadTransactions() {
+        // load transactions from a file
+        ArrayList<Transaction> transactions = new ArrayList<>();
 
-     // populate the list
-        try
-        {
+        // populate the list
+        try {
             FileReader fileReader = new FileReader("data/transactions.csv");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line = bufferedReader.readLine(); // read the header line and ignore it
             line = bufferedReader.readLine();
 
-            while (line != null)
-            {
+            while (line != null) {
                 String[] fields = line.split("\\|");
                 Transaction transaction = new Transaction(
                         LocalDate.parse(fields[0]),
@@ -84,21 +76,16 @@ public class AccountingLedgerApp
                 transactions.add(transaction);
                 line = bufferedReader.readLine();
             }
-        }
-        catch (FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             System.err.println(e.getMessage());
         }
 
         return transactions;
     }
 
-   // static void displayDepositScreen()
-    {
+    static void displayDepositScreen() {
         System.out.println("Make a Deposit");
         System.out.println("-------------");
         System.out.println();
@@ -106,7 +93,58 @@ public class AccountingLedgerApp
         String amount = scanner.nextLine().strip();
     }
 
+    static void displayLedgerScreen()
+    {
+        System.out.println("Ledger");
+        System.out.println("------");
+        System.out.println();
+        System.out.println("A) All Transactions");
+        System.out.println("D) Deposits Only");
+        System.out.println("P) Payments Only");
+        System.out.println("R) Reports");
+        System.out.println("H) Return Home");
+        System.out.print("Make a selection: ");
 
+        String choice = scanner.nextLine().toUpperCase().strip();
 
+        System.out.println();
+        switch (choice) {
+            case "A":
+                // display all transactions
+                displayTransactions();
+                System.out.println("Press enter to return to the ledger screen...");
+                scanner.nextLine();
+                displayLedgerScreen();
+                break;
+            case "D":
+                // display deposits only
+                break;
+            case "P":
+                // display payments only
+                break;
+            case "R":
+                System.out.println("Create the Reports Screen");
+                break;
+            case "H":
+                displayHomeScreen();
+                break;
+            default:
+                System.out.println("Invalid selection. Please try again.");
 
+        }
+    }
+
+    static void displayTransactions()
+    {
+        // loop through the transactions and display them
+        for (Transaction transaction : transactions)
+        {
+            System.out.println(transaction.getDate()
+                    + " "
+                    + transaction.getTime()
+                    + " " + transaction.getVendor()
+                    + " " + transaction.getDescription()
+                    + " " + transaction.getAmount());
+        }
+    }
 }
