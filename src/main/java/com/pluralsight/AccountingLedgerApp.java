@@ -1,13 +1,23 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AccountingLedgerApp
 {
     static Scanner scanner = new Scanner(System.in);
+    static ArrayList<Transaction> transactions;
 
     static void main()
     {
+        // make sure all transactions are loaded before we display the home screen
+        transactions = loadTransactions();
         displayHomeScreen();
     }
 
@@ -28,7 +38,7 @@ public class AccountingLedgerApp
         switch (choice)
         {
             case "D":
-                System.out.println("Create the Deposit Screen");
+                //displayDepositScreen();
                 break;
             case "P":
                 System.out.println("Create the Payment Screen");
@@ -47,6 +57,56 @@ public class AccountingLedgerApp
 
 
     }
+
+    static ArrayList<Transaction> loadTransactions()
+    {
+     // load transactions from a file
+     ArrayList<Transaction> transactions = new ArrayList<>();
+
+     // populate the list
+        try
+        {
+            FileReader fileReader = new FileReader("data/transactions.csv");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String line = bufferedReader.readLine(); // read the header line and ignore it
+            line = bufferedReader.readLine();
+
+            while (line != null)
+            {
+                String[] fields = line.split("\\|");
+                Transaction transaction = new Transaction(
+                        LocalDate.parse(fields[0]),
+                        LocalTime.parse(fields[1]),
+                        fields[2],
+                        fields[3],
+                        Double.parseDouble(fields[4])
+                );
+                transactions.add(transaction);
+                line = bufferedReader.readLine();
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException(e);
+        }
+        catch (IOException e)
+        {
+            System.err.println(e.getMessage());
+        }
+
+        return transactions;
+    }
+
+   // static void displayDepositScreen()
+    {
+        System.out.println("Make a Deposit");
+        System.out.println("-------------");
+        System.out.println();
+        System.out.print("Enter the amount to deposit: ");
+        String amount = scanner.nextLine().strip();
+    }
+
+
 
 
 }
