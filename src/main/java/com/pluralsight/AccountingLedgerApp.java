@@ -28,14 +28,16 @@ public class AccountingLedgerApp {
         System.out.println("X) Exit");
         System.out.print("Make a selection: ");
 
-        String choice = scanner.nextLine().toUpperCase().strip();
+        String userInput = scanner.nextLine().toUpperCase().strip();
 
         System.out.println();
-        switch (choice) {
+        switch (userInput.toUpperCase())
+        {
             case "D":
-                displayDepositScreen();
+                makeTransactionScreen(scanner, "D");
                 break;
             case "P":
+                makeTransactionScreen(scanner, "P");
                 System.out.println("Create the Payment Screen");
                 break;
             case "L":
@@ -49,8 +51,6 @@ public class AccountingLedgerApp {
                 System.out.println("Invalid selection. Please try again.");
                 displayHomeScreen();
         }
-
-
     }
 
     static ArrayList<Transaction> loadTransactions()
@@ -92,20 +92,44 @@ public class AccountingLedgerApp {
         return transactions;
     }
 
-    static void displayDepositScreen()
+    static void makeTransactionScreen(Scanner scanner, String transactionType)
     {
-        System.out.println("Make a Deposit");
-        System.out.println("-------------");
+        String screenTitle;
+        String amountLine;
+
+        switch (transactionType.toUpperCase()) {
+            case "D":
+                screenTitle = "Make a Deposit";
+                amountLine = "Enter the amount to deposit: ";
+                break;
+            case "P":
+                screenTitle = "Make a Payment";
+                amountLine = "Enter the amount to pay: ";
+                break;
+            default:
+                System.out.println("Invalid transaction type. Returning to home screen.");
+                displayHomeScreen();
+                return;
+        }
+
+        System.out.println("\n=== " + screenTitle + " ===");
+        System.out.println("--------------------");
         System.out.println();
 
-        System.out.print("Enter a description: ");
+        System.out.print("Enter a brief description: ");
         String description = scanner.nextLine().strip();
 
         System.out.print("Enter a vendor: ");
         String vendor = scanner.nextLine().strip();
 
-        System.out.print("Enter the amount: ");
+        System.out.print(amountLine);
         double amount = Double.parseDouble(scanner.nextLine().strip());
+
+        // if it's a payment, we want to store the amount as a negative number
+        if (transactionType.equalsIgnoreCase("P"))
+        {
+            amount = -Math.abs(amount);
+        }
 
         logTransaction(description, vendor, amount);
 
@@ -118,6 +142,9 @@ public class AccountingLedgerApp {
 
     static void displayLedgerScreen()
     {
+        //ensure transactions are loaded before we display the ledger screen
+        transactions = loadTransactions();
+
         System.out.println("Ledger");
         System.out.println("------");
         System.out.println();
@@ -154,7 +181,7 @@ public class AccountingLedgerApp {
                 displayLedgerScreen();
                 break;
             case "R":
-                System.out.println("Create the Reports Screen");
+                displayReportsScreen();
                 break;
             case "H":
                 displayHomeScreen();
@@ -230,5 +257,58 @@ public class AccountingLedgerApp {
                 }
             }
         }
+    }
+
+    static void displayReportsScreen()
+    {
+            System.out.println("\n=== Reports ===");
+            System.out.println("1) Month To Date");
+            System.out.println("2) Previous Month");
+            System.out.println("3) Year To Date");
+            System.out.println("4) Previous Year");
+            System.out.println("5) Search Transactions");
+            System.out.println("0) Return to Ledger");
+            System.out.print("Make a selection: ");
+
+            String choice = scanner.nextLine().strip();
+
+            ArrayList<Transaction> transactions = loadTransactions();
+
+            switch (choice)
+            {
+                case "1":
+                    System.out.println("\n=== Month To Date ===");
+                    //displayMonthToDate(transactions);
+                    break;
+
+                case "2":
+                    System.out.println("\n=== Previous Month ===");
+                   // displayPreviousMonth(transactions);
+                    break;
+
+                case "3":
+                    System.out.println("\n=== Year To Date ===");
+                   // displayYearToDate(transactions);
+                    break;
+
+                case "4":
+                    System.out.println("\n=== Previous Year ===");
+                  //  displayPreviousYear(transactions);
+                    break;
+
+                case "5":
+                    System.out.print("Enter vendor name: ");
+                    String vendor = scanner.nextLine().trim();
+                    //displayByVendor(transactions, vendor);
+                    break;
+
+                case "0":
+
+                    displayLedgerScreen();
+
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
     }
 }
