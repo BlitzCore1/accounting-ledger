@@ -4,13 +4,14 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class AccountingLedgerApp {
     static Scanner scanner = new Scanner(System.in);
     static ArrayList<Transaction> transactions;
 
-    static void main()
+public static void main(String[] args)
     {
         // make sure all transactions are loaded before we display the home screen
         transactions = loadTransactions();
@@ -19,8 +20,9 @@ public class AccountingLedgerApp {
 
     static void displayHomeScreen()
     {
-        System.out.println("Welcome to the Accounting Ledger App!");
-        System.out.println("-------------------------------------");
+        displayAppBanner();
+        displaySectionHeader("Home");
+
         System.out.println();
         System.out.println("D) Make a Deposit");
         System.out.println("P) Make a Payment");
@@ -43,11 +45,11 @@ public class AccountingLedgerApp {
                 displayLedgerScreen();
                 break;
             case "X":
-                System.out.println("Goodbye!");
+                System.out.println("\nGoodbye!");
                 // return exits the loop and the method, which in this case ends the application
                 return;
             default:
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("\nInvalid selection. Please try again.");
                 displayHomeScreen();
         }
     }
@@ -87,6 +89,8 @@ public class AccountingLedgerApp {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
+        transactions.sort(Comparator.comparing
+                (Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
         return transactions;
     }
@@ -111,8 +115,7 @@ public class AccountingLedgerApp {
                 return;
         }
 
-        System.out.println("\n=== " + screenTitle + " ===");
-        System.out.println("--------------------");
+        displaySectionHeader(screenTitle);
         System.out.println();
 
         System.out.print("Enter a brief description: ");
@@ -132,6 +135,7 @@ public class AccountingLedgerApp {
 
         logTransaction(description, vendor, amount);
 
+
         System.out.println();
         System.out.println("Press enter to return to the home screen..." );
         scanner.nextLine();
@@ -148,8 +152,9 @@ public class AccountingLedgerApp {
             //ensure transactions are loaded before we display the ledger screen
             transactions = loadTransactions();
 
-            System.out.println("Ledger");
-            System.out.println("------");
+            displayAppBanner();
+            displaySectionHeader("Ledger");
+
             System.out.println();
             System.out.println("A) All Transactions");
             System.out.println("D) Deposits Only");
@@ -199,7 +204,7 @@ public class AccountingLedgerApp {
     public static void displayTransactions(ArrayList<Transaction> transactions, String filterType)
     {
     // Prints with header once
-    System.out.printf("%-12s %-10s %-20s %30s %10s%n",
+    System.out.printf("%-12s %-10s %-20s %-30s %10s%n",
             "Date",
             "Time",
             "Vendor",
@@ -251,7 +256,8 @@ public class AccountingLedgerApp {
                     vendor,
                     amount);
 
-            System.out.println("Transaction logged successfully.");
+            System.out.printf("$%.2f %s logged successfully.%n", amount, amount < 0 ? "payment" : "deposit");
+
         }
         catch (FileNotFoundException e)
         {
@@ -288,7 +294,7 @@ public class AccountingLedgerApp {
             System.out.println("2) Previous Month");
             System.out.println("3) Year To Date");
             System.out.println("4) Previous Year");
-            System.out.println("5) Search Transactions");
+            System.out.println("5) Search by Vendor");
             System.out.println("0) Return to Ledger");
             System.out.print("Make a selection: ");
 
@@ -326,7 +332,6 @@ public class AccountingLedgerApp {
 
                 case "0":
                     keepDisplaying = false;
-                    displayLedgerScreen();
                     break;
 
                 default:
@@ -355,13 +360,13 @@ public class AccountingLedgerApp {
     private static void displayPreviousMonth(ArrayList<Transaction> transactions)
     {
         ArrayList<Transaction> filtered = new ArrayList<>();
-        LocalDate now = LocalDate.now();
+        LocalDate previousMonth = LocalDate.now().minusMonths(1);
 
         for (Transaction transaction : transactions)
         {
             LocalDate transactionDate = transaction.getDate();
-            if (transactionDate.getYear() == now.getYear() &&
-                    transactionDate.getMonth() == now.minusMonths(1).getMonth())
+            if (transactionDate.getYear() == previousMonth.getYear() &&
+                    transactionDate.getMonth() == previousMonth.minusMonths(1).getMonth())
             {
                 filtered.add(transaction);
             }
@@ -409,5 +414,22 @@ public class AccountingLedgerApp {
             }
         }
         displayTransactions(filtered);
+    }
+
+    public static void displayAppBanner()
+    {
+        System.out.println("==================================================");
+        System.out.println("                 DEBITS & REGRETS                ");
+        System.out.println("        A CLI Ledger for Financial Decisions      ");
+        System.out.println("==================================================");
+
+    }
+
+    public static void displaySectionHeader(String title)
+    {
+        System.out.println();
+        System.out.println("--------------------");
+        System.out.println(" " + title);
+        System.out.println("--------------------");
     }
 }

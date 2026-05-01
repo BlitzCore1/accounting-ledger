@@ -1,11 +1,62 @@
 date|time|description|vendor|amount
-2023-04-15|10:13:25|ergonomic keyboard|Amazon|-89.50
-2023-04-15|11:15:00|Invoice 1001 paid|Joe|1500.00
-2023-04-16|09:05:12|coffee and bagel|Starbucks|-7.85
-2023-04-16|14:22:45|office supplies|Staples|-45.20
-2023-04-17|08:45:00|monthly subscription|Netflix|-15.99
-2023-04-17|16:30:10|consulting payment|Acme Corp|2200.00
-2023-04-18|12:10:05|lunch meeting|Subway|-12.50
-2023-04-18|18:55:30|rideshare|Uber|-23.75
-2023-04-19|07:50:20|gym membership|Anytime Fitness|-40.00
-2023-04-19|13:40:55|project milestone payment|Client XYZ|3000.00
+2025-03-02|08:00:00|Tax refund|IRS Refund|640.00
+2025-06-11|14:11:59|Laptop accessories|Amazon|-129.99
+2025-08-19|09:40:30|Equipment sale|Facebook Marketplace|150.00
+2025-10-05|18:23:44|Groceries|Safeway|-88.42
+2025-11-14|12:02:10|Car repair|Joe's Auto|-312.75
+2025-12-22|16:15:40|Holiday bonus|FedEx|500.00
+2026-01-03|08:00:00|Rent payment|RentCo|-1200.00
+2026-01-17|10:45:05|Phone bill|T-Mobile|-92.10
+2026-01-31|09:15:33|Client payment|Square Client|300.00
+2026-02-10|13:05:17|Groceries|Safeway|-61.45
+2026-02-20|06:45:00|Paycheck deposit|FedEx|875.00
+2026-02-28|07:50:00|Gas refill|Chevron|-49.60
+2026-03-14|11:22:30|Side job payment|CashApp|95.00
+2026-03-15|18:40:00|Dinner|Chipotle|-16.35
+2026-03-16|15:08:22|Amazon refund|Amazon|18.49
+2026-03-17|12:17:44|Groceries|Safeway|-76.19
+2026-03-18|09:33:08|Internet bill|Comcast|-79.99
+2026-03-19|19:25:51|Household supplies|Amazon|-54.90
+2026-03-20|06:45:00|Paycheck deposit|FedEx|875.00
+2026-03-21|13:40:10|Brake inspection|Joe's Auto|-65.00
+2026-03-22|08:55:26|Clothing purchase|Target|-83.21
+2026-03-23|18:09:14|Streaming subscription|Netflix|-15.99
+2026-03-24|10:05:47|Client payment|Square Client|260.00
+2026-03-25|12:10:33|Lunch delivery|DoorDash|-22.54
+2026-03-26|16:45:12|Cash transfer from savings|Apple Savings|200.00
+2026-03-27|11:30:00|Office supplies|Amazon|-36.67
+2026-03-28|20:15:19|Phone bill|T-Mobile|-92.10
+2026-03-29|14:50:08|Coffee|Starbucks|-7.40
+2026-03-30|09:22:45|Freelance invoice paid|ACME Consulting|390.00
+2026-03-31|18:35:16|Groceries|Safeway|-69.82
+2026-04-01|08:00:00|Rent payment|RentCo|-1200.00
+2026-04-02|17:03:40|Gas refill|Chevron|-46.20
+2026-04-03|06:45:00|Paycheck deposit|FedEx|875.00
+2026-04-04|15:18:21|Book purchase|Amazon|-21.45
+2026-04-05|09:42:55|Coffee|Starbucks|-6.25
+2026-04-06|19:25:10|Ride share|Uber|-18.32
+2026-04-07|11:11:11|Client payment|Square Client|275.00
+2026-04-08|16:08:44|Groceries|Safeway|-53.66
+2026-04-09|13:47:36|Cloud storage|Apple|-2.99
+2026-04-10|07:30:00|Gas refill|Chevron|-52.14
+2026-04-11|10:55:29|Side job payment|CashApp|120.00
+2026-04-12|18:19:03|Dinner|Chipotle|-14.75
+2026-04-13|08:25:50|Refund from return|Amazon|34.99
+2026-04-14|12:44:32|Groceries|Safeway|-71.26
+2026-04-15|09:05:11|Internet bill|Comcast|-79.99
+2026-04-16|20:13:48|Household supplies|Amazon|-42.17
+2026-04-17|06:45:00|Paycheck deposit|FedEx|875.00
+2026-04-18|15:35:27|Oil change|Joe's Auto|-89.99
+2026-04-19|10:02:09|Work shoes|Target|-58.44
+2026-04-20|18:11:30|Streaming subscription|Netflix|-15.99
+2026-04-21|13:20:01|Client payment|Square Client|310.00
+2026-04-22|16:40:12|Lunch delivery|DoorDash|-26.88
+2026-04-23|07:55:40|Cash transfer from savings|Apple Savings|250.00
+2026-04-24|11:12:59|Keyboard and mouse|Amazon|-73.49
+2026-04-25|19:22:18|Phone bill|T-Mobile|-92.10
+2026-04-26|14:05:33|Coffee meeting|Starbucks|-8.95
+2026-04-27|09:30:44|Freelance invoice paid|ACME Consulting|425.00
+2026-04-28|17:45:10|Gas refill|Chevron|-48.76
+2026-04-29|12:10:05|Groceries|Safeway|-64.38
+2026-04-30|08:15:22|Paycheck deposit|FedEx|875.00
+2026-04-30|22:19:35|Parking Ticket|SPD|-65.00
