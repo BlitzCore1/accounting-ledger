@@ -11,12 +11,12 @@ public class Transaction
     private String description;
     private double amount;
 
-    public Transaction(LocalDate date, LocalTime time, String vendor, String description, double amount)
+    public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount)
     {
         this.date = date;
         this.time = time;
-        this.vendor = vendor;
         this.description = description;
+        this.vendor = vendor;
         this.amount = amount;
     }
 

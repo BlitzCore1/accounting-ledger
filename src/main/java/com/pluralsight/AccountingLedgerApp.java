@@ -38,7 +38,6 @@ public class AccountingLedgerApp {
                 break;
             case "P":
                 makeTransactionScreen(scanner, "P");
-                System.out.println("Create the Payment Screen");
                 break;
             case "L":
                 displayLedgerScreen();
@@ -142,77 +141,96 @@ public class AccountingLedgerApp {
 
     static void displayLedgerScreen()
     {
-        //ensure transactions are loaded before we display the ledger screen
-        transactions = loadTransactions();
+        boolean keepDisplaying = true;
 
-        System.out.println("Ledger");
-        System.out.println("------");
-        System.out.println();
-        System.out.println("A) All Transactions");
-        System.out.println("D) Deposits Only");
-        System.out.println("P) Payments Only");
-        System.out.println("R) Reports");
-        System.out.println("H) Return Home");
-        System.out.print("Make a selection: ");
+        while (keepDisplaying)
+        {
+            //ensure transactions are loaded before we display the ledger screen
+            transactions = loadTransactions();
 
-        String choice = scanner.nextLine().toUpperCase().strip();
+            System.out.println("Ledger");
+            System.out.println("------");
+            System.out.println();
+            System.out.println("A) All Transactions");
+            System.out.println("D) Deposits Only");
+            System.out.println("P) Payments Only");
+            System.out.println("R) Reports");
+            System.out.println("H) Return Home");
+            System.out.print("Make a selection: ");
 
-        System.out.println();
-        switch (choice) {
-            case "A":
-                // display all transactions
-                displayTransactions(transactions, "A");
-                System.out.println("Press enter to return to the ledger screen...");
-                scanner.nextLine();
-                displayLedgerScreen();
-                break;
-            case "D":
-                // display deposits only
-                displayTransactions(transactions, "D");
-                System.out.println("Press enter to return to the ledger screen...");
-                scanner.nextLine();
-                displayLedgerScreen();
-                break;
-            case "P":
-                // display payments only
-                displayTransactions(transactions, "P");
-                System.out.println("Press enter to return to the ledger screen...");
-                scanner.nextLine();
-                displayLedgerScreen();
-                break;
-            case "R":
-                displayReportsScreen();
-                break;
-            case "H":
-                displayHomeScreen();
-                break;
-            default:
-                System.out.println("Invalid selection. Please try again.");
-                displayLedgerScreen();
+            String choice = scanner.nextLine().toUpperCase().strip();
+
+            System.out.println();
+            switch (choice) {
+                case "A":
+                    // display all transactions
+                    displayTransactions(transactions, "A");
+                    System.out.println("Press enter to return to the ledger screen...");
+                    scanner.nextLine();
+                    break;
+                case "D":
+                    // display deposits only
+                    displayTransactions(transactions, "D");
+                    System.out.println("Press enter to return to the ledger screen...");
+                    scanner.nextLine();
+                    break;
+                case "P":
+                    // display payments only
+                    displayTransactions(transactions, "P");
+                    System.out.println("Press enter to return to the ledger screen...");
+                    scanner.nextLine();
+                    break;
+                case "R":
+                    displayReportsScreen();
+                    break;
+                case "H":
+                    keepDisplaying = false;
+                    displayHomeScreen();
+                    break;
+                default:
+                    System.out.println("Invalid selection. Please try again.");
+                    displayLedgerScreen();
+            }
+
 
         }
     }
 
     public static void displayTransactions(ArrayList<Transaction> transactions, String filterType)
     {
-        // loop through the transactions and display them
-        for (Transaction transaction : transactions)
+    // Prints with header once
+    System.out.printf("%-12s %-10s %-20s %30s %10s%n",
+            "Date",
+            "Time",
+            "Vendor",
+            "Description",
+            "Amount");
+    System.out.println("---------------------------------------------------------------------------------------------");
+
+    // Loop through transactions and display each one
+    for (Transaction transaction : transactions)
+    {
+        if (filterType.equalsIgnoreCase("D") && transaction.getAmount() < 0) // displays deposits only
         {
-            if (filterType.equalsIgnoreCase("D") && transaction.getAmount() < 0)
-            {
-                continue;
-            }
-            else if (filterType.equalsIgnoreCase("P") && transaction.getAmount() > 0)
-            {
-                continue;
-            }
-            System.out.println(transaction.getDate()
-                    + " "
-                    + transaction.getTime()
-                    + " " + transaction.getVendor()
-                    + " " + transaction.getDescription()
-                    + " " + transaction.getAmount());
+            continue;
         }
+        else if (filterType.equalsIgnoreCase("P") && transaction.getAmount() > 0) // displays payments only
+        {
+            continue;
+        }
+
+        System.out.printf("%-12s %-10s %-20s %30s %10.2f%n",
+                transaction.getDate(),
+                transaction.getTime(),
+                transaction.getVendor(),
+                transaction.getDescription(),
+                transaction.getAmount());
+    }
+    }
+
+    public static void displayTransactions(ArrayList<Transaction> transactions)
+    {
+        displayTransactions(transactions, "A");
     }
 
     public static void logTransaction(String description, String vendor, double amount)
@@ -261,6 +279,10 @@ public class AccountingLedgerApp {
 
     static void displayReportsScreen()
     {
+        boolean keepDisplaying = true;
+
+        while (keepDisplaying)
+        {
             System.out.println("\n=== Reports ===");
             System.out.println("1) Month To Date");
             System.out.println("2) Previous Month");
@@ -278,37 +300,114 @@ public class AccountingLedgerApp {
             {
                 case "1":
                     System.out.println("\n=== Month To Date ===");
-                    //displayMonthToDate(transactions);
+                    displayMonthToDate(transactions);
                     break;
 
                 case "2":
                     System.out.println("\n=== Previous Month ===");
-                   // displayPreviousMonth(transactions);
+                    displayPreviousMonth(transactions);
                     break;
 
                 case "3":
                     System.out.println("\n=== Year To Date ===");
-                   // displayYearToDate(transactions);
+                    displayYearToDate(transactions);
                     break;
 
                 case "4":
                     System.out.println("\n=== Previous Year ===");
-                  //  displayPreviousYear(transactions);
+                    displayPreviousYear(transactions);
                     break;
 
                 case "5":
                     System.out.print("Enter vendor name: ");
                     String vendor = scanner.nextLine().trim();
-                    //displayByVendor(transactions, vendor);
+                    displayByVendor(transactions, vendor);
                     break;
 
                 case "0":
-
+                    keepDisplaying = false;
                     displayLedgerScreen();
+                    break;
 
                 default:
                     System.out.println("Invalid option. Please try again.");
-                    break;
             }
+        }
+    }
+
+    private static void displayMonthToDate(ArrayList<Transaction> transactions)
+    {
+        ArrayList<Transaction> filtered = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+
+        for (Transaction transaction : transactions)
+        {
+            LocalDate transactionDate = transaction.getDate();
+            if (transactionDate.getYear() == now.getYear() &&
+                    transactionDate.getMonth() == now.getMonth())
+            {
+                filtered.add(transaction);
+            }
+        }
+        displayTransactions(filtered);
+    }
+
+    private static void displayPreviousMonth(ArrayList<Transaction> transactions)
+    {
+        ArrayList<Transaction> filtered = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+
+        for (Transaction transaction : transactions)
+        {
+            LocalDate transactionDate = transaction.getDate();
+            if (transactionDate.getYear() == now.getYear() &&
+                    transactionDate.getMonth() == now.minusMonths(1).getMonth())
+            {
+                filtered.add(transaction);
+            }
+        }
+        displayTransactions(filtered);
+    }
+
+    private static void displayYearToDate(ArrayList<Transaction> transactions)
+    {
+        ArrayList<Transaction> filtered = new ArrayList<>();
+
+        for (Transaction transaction : transactions)
+        {
+            if (transaction.getDate().getYear() == LocalDate.now().getYear())
+            {
+                filtered.add(transaction);
+            }
+        }
+        displayTransactions(filtered);
+    }
+
+    private static void displayPreviousYear(ArrayList<Transaction> transactions)
+    {
+        ArrayList<Transaction> filtered = new ArrayList<>();
+
+        for (Transaction transaction : transactions)
+        {
+            if (transaction.getDate().getYear() == LocalDate.now().getYear() - 1)
+            {
+                filtered.add(transaction);
+            }
+        }
+        displayTransactions(filtered);
+    }
+
+    private static void displayByVendor(ArrayList<Transaction> transactions, String vendor)
+    {
+        ArrayList<Transaction> filtered = new ArrayList<>();
+
+        for (Transaction transaction : transactions)
+        {
+            if (transaction.getVendor().toLowerCase().contains(vendor))
+            {
+                filtered.add(transaction);
+            }
+        }
+        displayTransactions(filtered);
     }
 }
