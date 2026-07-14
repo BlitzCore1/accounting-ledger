@@ -327,7 +327,7 @@ static void main(String[] args)
 
                 case "5":
                     System.out.print("Enter vendor name: ");
-                    String vendor = scanner.nextLine().trim();
+                    String vendor = scanner.nextLine().trim().toLowerCase();
                     displayByVendor(transactions, vendor);
                     break;
                 case "6":
